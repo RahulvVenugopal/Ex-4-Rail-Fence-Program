@@ -19,7 +19,90 @@ STEP-4: Arrange the characters of the keyword in sorted order and the correspond
 STEP-5: Read the characters row wise or column wise in the former order to get the cipher text.
 
 # PROGRAM
+```
+#include <stdio.h> 
+#include <string.h> 
+ 
+void railFenceEncrypt(char *message, int rails, char *cipherText) { 
+    int len = strlen(message); 
+    int row = 0, dir = 1;   
+    char rail[rails][len]; 
+    memset(rail, '\n', sizeof(rail)); 
+ 
+    for (int i = 0; i < len; i++) { 
+        rail[row][i] = message[i]; 
+        if (row == 0) dir = 1; 
+        else if (row == rails - 1) dir = -1; 
+        row += dir; 
+    } 
+ 
+    int k = 0; 
+    for (int i = 0; i < rails; i++) { 
+        for (int j = 0; j < len; j++) { 
+            if (rail[i][j] != '\n') { 
+                cipherText[k++] = rail[i][j]; 
+            } 
+        } 
+    } 
+    cipherText[k] = '\0'; 
+} 
+ 
+void railFenceDecrypt(char *cipherText, int rails, char *plainText) { 
+    int len = strlen(cipherText); 
+    char rail[rails][len]; 
+    memset(rail, '\n', sizeof(rail)); 
+ 
+    int row = 0, dir = 1; 
+    for (int i = 0; i < len; i++) { 
+        rail[row][i] = '*'; 
+        if (row == 0) dir = 1; 
+        else if (row == rails - 1) dir = -1; 
+        row += dir; 
+    } 
+ 
+    int k = 0; 
+    for (int i = 0; i < rails; i++) { 
+        for (int j = 0; j < len; j++) { 
+            if (rail[i][j] == '*' && k < len) { 
+                rail[i][j] = cipherText[k++]; 
+            } 
+        } 
+    } 
+ 
+    row = 0, dir = 1; 
+    for (int i = 0; i < len; i++) { 
+        plainText[i] = rail[row][i]; 
+        if (row == 0) dir = 1; 
+        else if (row == rails - 1) dir = -1; 
+        row += dir; 
+    } 
+    plainText[len] = '\0'; 
+} 
+ 
+int main() { 
+    char message[100], cipherText[100], decryptedText[100]; 
+    int rails; 
+ 
+    prin ("Enter the plain text: "); 
+    fgets(message, sizeof(message), stdin); 
+    message[strcspn(message, "\n")] = '\0'; 
+ 
+    prin ("Enter number of rails: "); 
+    scanf("%d", &rails); 
+ 
+    railFenceEncrypt(message, rails, cipherText); 
+    prin ("\nEncrypted Text: %s\n", cipherText); 
+ 
+    railFenceDecrypt(cipherText, rails, decryptedText); 
+    printf ("Decrypted Text: %s\n", decryptedText); 
+ 
+    return 0; 
+} 
+```
 
 # OUTPUT
+<img width="629" height="462" alt="image" src="https://github.com/user-attachments/assets/b7d8b50d-d1f3-4204-8e2a-3883fbfd54a8" />
+
 
 # RESULT
+Thus the program for performing rail fence cipher is executed. 
