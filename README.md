@@ -83,11 +83,11 @@ int main() {
     char message[100], cipherText[100], decryptedText[100]; 
     int rails; 
  
-    prin ("Enter the plain text: "); 
+    printf ("Enter the plain text: "); 
     fgets(message, sizeof(message), stdin); 
     message[strcspn(message, "\n")] = '\0'; 
  
-    prin ("Enter number of rails: "); 
+    printf ("Enter number of rails: "); 
     scanf("%d", &rails); 
  
     railFenceEncrypt(message, rails, cipherText); 
